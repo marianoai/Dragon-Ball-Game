@@ -1,0 +1,13 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.phonegap.dragonballGame" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:gap="http://phonegap.com/ns/1.0">
+    <name>Dragon Ball Game</name>
+    <description>
+        A simple javascript game developed with Phaser for a mobile phone.
+		The game theme was inspired in the Dragon Ball anime.
+    </description>
+    <author email="marianoai@gmail.com" href="https://marianoai.neocities.org/">
+        Mariano Aránguez
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+</widget>
