@@ -6,10 +6,11 @@
 > You are Goku, a powerful boy who travels in a magic cloud exploring the world in search of seven magic orbs known as the 'Dragon Balls', which summon a wish-granting dragon when gathered.
 
 ## Game
-The App reads the mobile phone accelerometer to get Goku moving.
+The App reads the mobile phone accelerometer to get Goku moving. You have to move Goku to catch the seven balls.
 
 ### Usage
 - Turn lightly the mobile phone to control the Goku's movement.
+- Lead to Goku over a Dragon Ball and he'll catch it.
 - Shake the mobile phone to re-start the game.
 
 ## Software notes
