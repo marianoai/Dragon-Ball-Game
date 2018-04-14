@@ -12,6 +12,9 @@ The App reads the mobile phone accelerometer to get Goku moving. You have to mov
 - Turn lightly the mobile phone to control the Goku's movement.
 - Lead to Goku over a Dragon Ball and he'll catch it.
 - Shake the mobile phone to re-start the game.
+- When Goku get the seven Dragon Balls he will summon to Shenron - a wish-granting dragon.
+
+***Enjoy the game!***
 
 ## Software notes
 This App was developed using [Phaser](https://phaser.io/) - a free software 2D game framework for making HTML5 games.

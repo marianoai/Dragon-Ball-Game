@@ -21,11 +21,15 @@ var app={
 			game.load.image('land', 'assets/land.png');
 			game.load.image('goku', 'assets/goku.png');
 			game.load.spritesheet('dragon_balls', 'assets/dragon_balls.png', 50, 50);
+			game.load.image('shenron', 'assets/shenron.png');
 		}
 
 		function create() {
 			land = game.add.sprite(0, 0, 'land');
 			land.scale.setTo(ancho/1200, alto/715);
+
+			shenron = game.add.sprite((ancho-325)/2, 50, 'shenron');
+			shenron.alpha = 0;
 
 			bar_level = game.add.graphics();
 			bar_level.beginFill('#000000', 0.5);
@@ -42,6 +46,16 @@ var app={
 				level[i].scale.setTo(0.4, 0.4);
 				level[i].alpha = 0;
 			}
+
+			bar_finishText = game.add.graphics();
+			bar_finishText.beginFill('#000000', 0.3);
+			bar_finishText.drawRect(0, alto-150, ancho, 100);
+			bar_finishText.visible = false;
+
+			finishText = game.add.text(0, 0, "YOU WIN!!!", { font: 'bold 40px Arial', fill: '#f27d0c', boundsAlignH: 'center', boundsAlignV: 'middle' });
+			finishText.setShadow(4, 4, 'rgba(0,0,0,0.5)', 2);
+			finishText.setTextBounds(0, alto-150, ancho, 100);
+			finishText.visible = false;
 
 			dragonball = game.add.sprite(app.inicioX(), app.inicioY(), 'dragon_balls');
 
@@ -70,15 +84,20 @@ var app={
 			return;
 		}
 
-		if ((Math.abs(goku.body.x - dragonball.body.x) < 10) && (Math.abs(goku.body.y - dragonball.body.y) < 10)) {
+		if ((Math.abs(goku.body.x - dragonball.body.x) < 15) && (Math.abs(goku.body.y - dragonball.body.y) < 15)) {
 
 			var lvl = dragonball.frame + 1
 			level[dragonball.frame].alpha = 0.8;
 			dragonball.frame = lvl;
 
 			if (lvl === 7) {
+				for (i = 1; i <= 1000; i++) {
+					setTimeout(function(i) {shenron.alpha = i/1000;}, i*(3000/1000), i);
+				}
 				dragonball.kill();
 				init = 0;
+				bar_finishText.visible = true;
+				finishText.visible = true;
 			}
 			else {
 				dragonball.body.x = app.inicioX();
