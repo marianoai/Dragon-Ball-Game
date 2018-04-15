@@ -74,6 +74,8 @@ var app={
 			game.physics.arcade.enable(dragonball);
 
 			goku.body.collideWorldBounds = true;
+			goku.body.onWorldBounds = new Phaser.Signal();
+			goku.body.onWorldBounds.add(app.decrementaPuntuacion, this);
 		}
 
 		function update() {
@@ -86,6 +88,15 @@ var app={
 
 		var estados = { preload: preload, create: create, update: update };
 		var game = new Phaser.Game(ancho, alto, Phaser.CANVAS, 'phaser', estados);
+	},
+
+	decrementaPuntuacion: function() {
+		if (time === 0) {
+			return;
+		}
+
+		puntuacion = puntuacion - 1;
+		scoreText.text = puntuacion;
 	},
 
 	incrementaPuntuacion: function() {

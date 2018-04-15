@@ -17,7 +17,9 @@ The App reads the mobile phone accelerometer to get Goku moving. You have to mov
 ### Score
 1) You'll get points when Goku gets a Dragon Ball. Catch them soon and you'll get more points.
 
-2) With each trapped ball, the difficulty is increased, so Goku will move faster and will be more difficult to control, but you'll get more points for catching the next ball.
+2) Avoid touching screen bounds or you'll lose points.
+
+3) With each trapped ball, the difficulty is increased, so Goku will move faster and will be more difficult to control, but you'll get more points for catching the next ball.
 
 ***Enjoy the game!***
 
