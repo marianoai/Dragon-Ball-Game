@@ -4,7 +4,7 @@ var app={
 
 		velocidadX = 0;
 		velocidadY = 0;
-		init = 1;
+		init = 0;
 
 		alto = document.documentElement.clientHeight;
 		ancho = document.documentElement.clientWidth;
@@ -22,6 +22,7 @@ var app={
 			game.load.image('goku', 'assets/goku.png');
 			game.load.spritesheet('dragon_balls', 'assets/dragon_balls.png', 50, 50);
 			game.load.image('shenron', 'assets/shenron.png');
+			game.load.audio('music', ['assets/audio/ost.mp3', 'assets/audio/ost.ogg']);
 		}
 
 		function create() {
@@ -47,6 +48,10 @@ var app={
 				level[i].alpha = 0;
 			}
 
+			initText = game.add.text(0, 0, "LOADING...", { font: 'bold 40px Arial', fill: '#f27d0c', boundsAlignH: 'center', boundsAlignV: 'middle' });
+			initText.setShadow(4, 4, 'rgba(0,0,0,0.5)', 2);
+			initText.setTextBounds(0, alto/2 - 50, ancho, 100);
+
 			bar_finishText = game.add.graphics();
 			bar_finishText.beginFill('#000000', 0.3);
 			bar_finishText.drawRect(0, alto-150, ancho, 100);
@@ -58,13 +63,18 @@ var app={
 			finishText.visible = false;
 
 			dragonball = game.add.sprite(app.inicioX(), app.inicioY(), 'dragon_balls');
+			dragonball.visible = false;
 
 			goku = game.add.sprite(app.inicioX(), app.inicioY(), 'goku');
+			goku.visible = false;
 			
 			game.physics.arcade.enable(goku);
 			game.physics.arcade.enable(dragonball);
 
 			goku.body.collideWorldBounds = true;
+
+			music = game.add.audio('music');
+			game.sound.setDecodedCallback([music], app.start, this);
 		}
 
 		function update() {
@@ -77,6 +87,14 @@ var app={
 
 		var estados = { preload: preload, create: create, update: update };
 		var game = new Phaser.Game(ancho, alto, Phaser.CANVAS, 'phaser', estados);
+	},
+
+	start: function() {
+		initText.visible = false;
+		dragonball.visible = true;
+		goku.visible = true;
+		music.loopFull();
+		init = 1;
 	},
 
 	incrementaPuntuacion: function() {
@@ -98,6 +116,7 @@ var app={
 				init = 0;
 				bar_finishText.visible = true;
 				finishText.visible = true;
+				music.stop();
 			}
 			else {
 				dragonball.body.x = app.inicioX();
