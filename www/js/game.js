@@ -4,7 +4,8 @@ var app={
 
 		velocidadX = 0;
 		velocidadY = 0;
-		init = 0;
+		puntuacion = 0;
+		time = 0;
 
 		alto = document.documentElement.clientHeight;
 		ancho = document.documentElement.clientWidth;
@@ -31,6 +32,14 @@ var app={
 
 			shenron = game.add.sprite((ancho-325)/2, 50, 'shenron');
 			shenron.alpha = 0;
+
+			bar_scoreText = game.add.graphics();
+			bar_scoreText.beginFill('#000000', 0.5);
+			bar_scoreText.drawRect(5, 5, 80, 30);
+
+			scoreText = game.add.text(0, 2, puntuacion, { fontSize: '20px', fill: '#f27d0c', boundsAlignH: 'center', boundsAlignV: 'middle' });
+			scoreText.setShadow(3, 3, 'rgba(0,0,0,1)', 2);
+			scoreText.setTextBounds(5, 5, 80, 30);
 
 			bar_level = game.add.graphics();
 			bar_level.beginFill('#000000', 0.5);
@@ -72,13 +81,15 @@ var app={
 			game.physics.arcade.enable(dragonball);
 
 			goku.body.collideWorldBounds = true;
+			goku.body.onWorldBounds = new Phaser.Signal();
+			goku.body.onWorldBounds.add(app.decrementaPuntuacion, this);
 
 			music = game.add.audio('music');
 			game.sound.setDecodedCallback([music], app.start, this);
 		}
 
 		function update() {
-			var factorDificultad = 300;
+			var factorDificultad = (300 + (dragonball.frame * 200));
 			goku.body.velocity.y = (velocidadY * factorDificultad);
 			goku.body.velocity.x = (velocidadX * -factorDificultad);
 
@@ -94,26 +105,39 @@ var app={
 		dragonball.visible = true;
 		goku.visible = true;
 		music.loopFull();
-		init = 1;
+		time = performance.now();
+	},
+
+	decrementaPuntuacion: function() {
+		if (time === 0) {
+			return;
+		}
+
+		puntuacion = puntuacion - 1;
+		scoreText.text = puntuacion;
 	},
 
 	incrementaPuntuacion: function() {
-		if (init === 0) {
+		if (time === 0) {
 			return;
 		}
 
 		if ((Math.abs(goku.body.x - dragonball.body.x) < 15) && (Math.abs(goku.body.y - dragonball.body.y) < 15)) {
+			time = performance.now() - time;
 
 			var lvl = dragonball.frame + 1
 			level[dragonball.frame].alpha = 0.8;
 			dragonball.frame = lvl;
+
+			puntuacion = puntuacion + Math.floor(lvl*100/Math.min(time/1000, 10));
+			scoreText.text = puntuacion;
 
 			if (lvl === 7) {
 				for (i = 1; i <= 1000; i++) {
 					setTimeout(function(i) {shenron.alpha = i/1000;}, i*(3000/1000), i);
 				}
 				dragonball.kill();
-				init = 0;
+				time = 0;
 				bar_finishText.visible = true;
 				finishText.visible = true;
 				music.stop();
